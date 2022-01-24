@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load static crispy_forms_tags %}
+{% block extra_statics %}
+    {{ form.media }}
+{% endblock %}
+{% block content_wrapper %}
+<form method="post" id="form_delete">{% csrf_token %}
+    <p>¿Está seguro que desea eliminar su post?</p>
+    <input type="submit" class="btn btn-primary" value="Confirmar">
+</form>
+{% endblock %}

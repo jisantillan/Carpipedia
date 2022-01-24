@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static crispy_forms_tags %}
+
+{% block extra_statics %}
+    {{ form.media }}
+{% endblock %}
+{% block content_wrapper %}
+    
+    <form method="POST" class="post-form">{% csrf_token %}
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">{{ form.titulo|as_crispy_field }}</div>
+                <div class="col-sm"> {{ form.categorias|as_crispy_field }}</div>
+                <div class="col-sm"></div>
+            </div>
+        </div>
+        {{ form.contenido|as_crispy_field }}
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content_wrapper %}
+<!-- Services Area Start -->
+<div class="container pt-30">
+    <div class="row">
+        <div class="col-lg-12">
+            <!-- Section Tittle -->
+            <div class="section-tittle text-center mb-30">
+                <h2>Accede al contenido premium y colabora</h2>
+                Si quieres ayudar a colaborar con la protección del habitat del carpincho, 
+                te brindamos un medio para hacerlo.
+                <div class="visit-cap pt-20">
+                <a href="{% url "blog" %}" class="btn btn-primary">Informate</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="single-cat-fondo text-center mb-10">
+                <div class="cat-cap h-5">
+                    <h1>$100</h1>
+                    <p>* Carpincho Lluvia</p>
+                </div>
+                <div class="h-5">
+                    <div class="services-icon pb-30">
+                        <span>
+                            <img src="{% static "imagenes/Lluvia.png" %}" style="width: 30%">
+                        </span>
+                    </div>
+                    <button type="button" data-toggle="modal" data-target="#tier1modal" class="genric-btn danger circle">Donar</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="single-cat-fondo text-center mb-10">
+                <div class="cat-cap h-5">
+                    <h1>$500</h1>
+                    <p>* Carpincho Lluvia
+                    <br>* Carpincho Enojado</p>
+                </div>
+                <div class="h-5">
+                    <div class="services-icon pb-30">
+                        <span>
+                            <img src="{% static "imagenes/Lluvia.png" %}" style="width: 30%">
+                            <img src="{% static "imagenes/Furia.png" %}" style="width: 30%">
+                        </span>
+                    </div>
+                    <button type="button" data-toggle="modal" data-target="#tier2modal" class="genric-btn danger circle">Donar</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="single-cat-fondo text-center mb-10">
+                <div class="cat-cap h-5">
+                    <h1>$1000</h1>
+                    <p>* Carpincho Lluvia
+                    <br>* Carpincho Enojado
+                    <br>* Carpincho Fiesta</p>
+                </div>
+                <div class="h-5">
+                    <div class="services-icon pb-30">
+                        <span>
+                            <img src="{% static "imagenes/Lluvia.png" %}" style="width: 30%">
+                            <img src="{% static "imagenes/Furia.png" %}" style="width: 30%">
+                            <img src="{% static "imagenes/Fiesta.png" %}" style="width: 30%">
+                        </span>
+                    </div>
+                    <button type="button" data-toggle="modal" data-target="#tier3modal" class="genric-btn danger circle">Donar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row center-v pb-40">
+        El 40% de la donación va a estar destinado al mantenimiento de la página
+    </div>
+    <div class="row center-v pb-20">
+        <div class="col-lg-12">
+            <!-- Section Tittle -->
+            <div class="section-tittle text-center mb-30">
+                <h3>¿No encuentras la opción que quieres?</h3>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#moreAccModal">
+                    Ver más opciones
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="moreAccModal" tabindex="-1" aria-labelledby="moreAccModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="margin-top:10%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="moreAccModalLabel">Más opciones</h5>
+                </div>
+                <div class="modal-body center-v">
+                    Banco: Mercado Pago
+                    <br>CVU: 0000000000000000000000
+                    <br>Alias: carpipedia
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="genric-btn primary radius" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="tier1modal" tabindex="-1" aria-labelledby="tier1modalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="margin-top:10%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tier1modalLabel">Donación de nivel 1</h5>
+                </div>
+                <div class="single-cat-fondo text-center mb-10">
+                    <div class="cat-cap h-4">
+                        <h1>$100</h1>
+                        <p>* Carpincho Lluvia</p>
+                    </div>
+                    <div class="h-5">
+                        <div class="services-icon pb-30">
+                            <span>
+                                <img src="{% static "imagenes/Lluvia.png" %}" style="width: 30%">
+                            </span>
+                        </div>
+                        <p>Tu nuevo ávatar estará disponible para seleccionar desde la edición de tu humedal</p>
+                        {% if request.user.is_authenticated %}
+                            <form action="{% url "get-premium-access" %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" id="nivel" name="nivel" value="1">
+                                <button class="genric-btn danger circle">Donar</button>
+                            </form>
+                        {% else %}
+                            <a href="/accounts/login" class="genric-btn danger circle">Donar</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="tier2modal" tabindex="-1" aria-labelledby="tier2modalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="margin-top:10%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tier2modalLabel">Donación de nivel 2</h5>
+                </div>
+                <div class="single-cat-fondo text-center mb-10">
+                    <div class="cat-cap h-4">
+                        <h1>$500</h1>
+                        <p>* Carpincho Lluvia
+                        <br>* Carpincho Enojado</p>
+                    </div>
+                    <div class="h-5">
+                        <div class="services-icon pb-30">
+                            <span>
+                                <img src="{% static "imagenes/Lluvia.png" %}" style="width: 30%">
+                                <img src="{% static "imagenes/Furia.png" %}" style="width: 30%">
+                            </span>
+                        </div>
+                        <p>Tu nuevo ávatar estará disponible para seleccionar desde la edición de tu humedal</p>
+                        {% if request.user.is_authenticated %}
+                        <form action="{% url "get-premium-access" %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" id="nivel" name="nivel" value="2">
+                            <button class="genric-btn danger circle">Donar</button>
+                        </form>
+                        {% else %}
+                            <a href="/accounts/login" class="genric-btn danger circle">Donar</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="tier3modal" tabindex="-1" aria-labelledby="tier3modalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="margin-top:10%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tier3modalLabel">Donación de nivel 3</h5>
+                </div>
+                <div class="single-cat-fondo text-center mb-10">
+                    <div class="cat-cap h-4">
+                        <h1>$1000</h1>
+                        <p>* Carpincho Lluvia
+                        <br>* Carpincho Enojado
+                        <br>* Carpincho Fiesta</p>
+                    </div>
+                    <div class="h-5">
+                        <div class="services-icon pb-30">
+                            <span>
+                                <img src="{% static "imagenes/Lluvia.png" %}" style="width: 30%">
+                                <img src="{% static "imagenes/Furia.png" %}" style="width: 30%">
+                                <img src="{% static "imagenes/Fiesta.png" %}" style="width: 30%">
+                            </span>
+                        </div>
+                        <p>Tu nuevo ávatar estará disponible para seleccionar desde la edición de tu humedal</p>
+                        {% if request.user.is_authenticated %}
+                        <form action="{% url "get-premium-access" %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" id="nivel" name="nivel" value="3">
+                            <button class="genric-btn danger circle">Donar</button>
+                        </form>
+                        {% else %}
+                            <a href="/accounts/login" class="genric-btn danger circle">Donar</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Services Area End -->
+
+{% endblock %}

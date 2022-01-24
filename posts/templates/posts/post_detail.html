@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content_wrapper %}
+  <div class="container mt-5 mb-5">
+    <div class="card w-75">
+      <div class="card-body">
+        <h2 class="">{{ post.titulo }}</h2>
+        <div class="container">
+          <div class="row">
+
+            {% if post.propietario.avatar.nombre_imagen %}
+                <p class="text-muted col-sm">- Por <a class="text-secondary" href="{% url "usr-detail" post.propietario.pk%}">{{ post.propietario }}<img style="position: absolute" src="{% static 'imagenes/Mini'|add:post.propietario.avatar.nombre_imagen %}" class="rounded-circle" width="30" height="30"></a></p>
+            {% else %}
+                <p class="text-muted float-left">- Por <a class="text-secondary" href="{% url "usr-detail" post.propietario.pk%}">{{ post.propietario }}<img style="position: absolute" src="{% static 'imagenes/CarpinchoAnonimo.png' %}" class="rounded-circle" width="30" height="30"></a></p>
+            {% endif %}
+            <div class="col-sm"></div>
+            <p class="text-muted col-sm">Categoria: {{ post.categorias.first }}</p>
+            <div class="col-sm"></div>
+            
+          </div>
+        </div>
+        <div class="container">
+          <div class="cuerpo-post">
+            <p class="card-text">{{ post.contenido|safe }}</p>
+          </div>
+          <div class="row pt-20 border-top">
+            <div class="col-7">
+              <div class="row">
+                <div id="like-section-{{ post.slug }}">
+                  {% include 'posts/like_section.html' %}
+                </div>
+                {% if post.propietario.pk is request.user.pk %}
+                  <a href="{% url 'post-edit' post.slug %}" class="genric-btn danger circle">Editar</a>
+                {% endif %}
+              </div>
+            </div>
+            <div class="col-5">
+              <p class="text-muted float-right">Creado el: {{ object.fecha_creacion|date:'j \d\e F \d\e Y' }}</p>
+            </div>
+            <hr>
+          </div>
+          <div id="comment-section">
+            {% include 'posts/comentarios_section.html' %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

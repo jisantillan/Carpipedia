@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content_wrapper %}
+<!-- Services Area Start -->
+<div class="services-area pt-150 pb-150 section-bg" data-background="{% static "imagenes/humedal_fuego.png" %}">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- Section Tittle -->
+                <div class="section-tittle section-tittle2 text-center mb-80">
+                        <!-- <span>Easy to explore</span>-->
+                    <h2>¿Sabías que el hábitat de los carpinchos y de muchos animales más se encuentran en peligro?</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-between">
+            <div class="col-lg-3 col-md-6">
+                <div class="single-services text-center mb-50">
+                    <div class="services-icon">
+                        <span>
+                            <img src="/static/imagenes/005-fuego.png" style="width: 70%">
+                        </span>
+                    </div>
+                    <div class="services-cap">
+                        <h5><a href="#">Incendios de los humedales</a></h5>
+                        <p>En el Delta de Entre Ríos, el carpincho tiene otros problemas actualmente. Algunos de ellos son los incendios de unas 300.000 hectáreas el último año, provocados por la quema de pastizales.</p>
+                    </div>
+                    <!-- Shpape -->
+                    <img class="shape1 d-none d-lg-block" src="assets/img/icon/serices1.png" alt="">
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="single-services text-center mb-50">
+                    <div class="services-icon">
+                        <span>
+                            <img src="/static/imagenes/009-pantano-2.png" style="width: 70%">
+                        </span>
+                    </div>
+                    <div class="services-cap">
+                        <h5><a href="#">80% de los humedales han desaparecido </a></h5>
+                        <p>Se estima que en los últimos 300 años ha desaparecido el 87% de los humedales del planeta. Algunas de las causas la sobreexplotación de bienes naturales, el desarrollo industrial e inmobiliario y el desecho de residuos mal tratados.</p>
+                    </div>
+                    <img class="shape2 d-none d-lg-block" src="assets/img/icon/serices2.png" alt="">
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="single-services text-center mb-50">
+                    <div class="services-icon">
+                        <span>
+                            <img src="/static/imagenes/008-caza.png" style="width: 70%">
+                        </span>
+                    </div>
+                    <div class="services-cap">
+                        <h5><a href="#">Ocupación desmesurada de su hábitat </a></h5>
+                        <p> Por otra parte, el hombre también afecta a esta especie, avanzando sobre su hábitat natural y generando daños en el ambiente que comprometen la vida normal de este roedor; o cazándolo ocasionalmente, aunque por ley esté prohibido.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="peoples-visit dining-padding-top pt-70 pb-70">
+    <!-- Single Left img -->
+    <div class="single-visit-carpincho left-img"> 
+        <div class="container">
+            <div class="row justify-content-end">
+                <div class="col-lg-8">
+                    <div class="visit-caption">
+                        <span>Tenemos algo para ofrecerte</span>
+                        <h3>Accede al contenido premium y colabora</h3>
+                        <p>Si querés ayudar a colaborar con la protección del habitat del carpincho, 
+                        te brindamos un medio para hacerlo. Además disfruta de:</p>
+                        <!--Single Visit categories -->
+                        <div class="visit-categories pb-90">
+                            <div class="visit-location">
+                                <img src="/static/imagenes/001-carpincho.png">
+                            </div>
+                            <div class="visit-cap">
+                                <h4>Avatares únicos</h4>
+                                <p>Accede a avatares para personalizar tu perfil con carpinchos únicos y premium
+                                </p>
+                            </div>
+                        </div>
+                        <!--Single Visit categories -->
+                        <div class="visit-categories">
+                            <div class="visit-location">
+                                <span>
+                                    <img src="/static/imagenes/donar.png">
+                                </span>
+                            </div>
+                            <div class="visit-cap">
+                                <h4>Colabora</h4>
+                                <a href="{% url "contribuye" %}" class="btn btn-primary">Donar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Services Area Start -->
+<div class="categories-area pt-30">
+    <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="single-cat-fondo text-center mb-50">
+                        <div class="cat-icon">
+                            <span>
+                            <img src="/static/imagenes/logo_aves_argentinas.jpg">
+                            </span>
+                        </div>
+                        <div class="cat-cap">
+                            <h5>Aves Argentinas</h5>
+                            <p>Aves Argentinas es la organización nacional que, compuesta por más de 3000 socios y 
+                            con más de 100 años de vida protege las aves silvestres y la naturaleza de Argentina</p>
+                            <a href="https://www.avesargentinas.org.ar">www.avesargentinas.org.ar</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="single-cat-fondo text-center mb-50">
+                        <div class="cat-icon">
+                            <span>
+                                <img src="/static/imagenes/logo_vida_silvestre.jpg" style="width: 30%">
+                            </span>
+                        </div>
+                        <div class="cat-cap">
+                            <h5>Vida Silvestre</h5>
+                            <p>Desde 1988 Fundación Vida Silvestre Argentina es una organización asociada 
+                            a la Organización Mundial de Conservación (WWF por sus siglas en inglés)</p>
+                            <a href="https://www.vidasilvestre.org.ar">www.vidasilvestre.org.ar</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="single-cat-fondo text-center mb-50">
+                        <div class="cat-icon">
+                            <span>
+                                <img src="/static/imagenes/logo_ley_humedales.svg" style="width: 63%">
+                            </span>
+                        </div>
+                        <div class="cat-cap">
+                            <h5>Ley de Humedales Ya</h5>
+                            <p>Son cuatro organizaciones argentinas que integran junto a otras de Bolivia, Brasil, 
+                            Paraguay y Países Bajos, el programa Humedales Sin Fronteras comprometido con la 
+                            sustentabilidad de la Cuenca del Plata</p>
+                            <a href="https://www.leydehumedalesya.org">www.leydehumedalesya.org</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- Services Area End -->
+
+{% endblock %}

@@ -1,0 +1,17 @@
+django>=3
+django-extensions
+gunicorn
+coverage
+django-allauth
+pyOpenSSL
+Werkzeug
+django-bootstrap4
+pylint
+pylint-django
+pytest-django
+pycodestyle
+django-crispy-forms
+django-tinymce
+gunicorn
+whitenoise
+django-heroku

@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content_wrapper %}
+    <div class="row mt-20 mb-20">
+        <div class="col-md-7">
+        {% for post in posts %}
+            <div class="card mb-2">
+                <div class="card-body">
+                    <h5 class="card-title">{{ post.titulo }}</h5>
+
+                    {% if post.propietario.avatar.nombre_imagen %}
+                        <p class="text-muted float-left">- Por <a class="text-secondary" href="{% url "usr-detail" post.propietario.pk%}">{{ post.propietario }}<img style="position: absolute" src="{% static 'imagenes/Mini'|add:post.propietario.avatar.nombre_imagen %}" class="rounded-circle" width="30" height="30"></a></p>
+                    {% else %}
+                        <p class="text-muted float-left">- Por <a class="text-secondary" href="{% url "usr-detail" post.propietario.pk%}">{{ post.propietario }}<img style="position: absolute" src="{% static 'imagenes/CarpinchoAnonimo.png' %}" class="rounded-circle" width="30" height="30"></a></p>
+                    {% endif %}
+                    
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm"></div>
+                            <p class="text-muted float-right">Categoria: {{ post.categorias.first }}</p>
+                            <div class="col-sm"></div>
+                        </div>
+                    </div>
+
+                    <div class="post-teaser cuerpo-post">
+                        <p class="card-text">{{ post.contenido|safe }}</p>
+                    </div>
+                    <div class="button-group-area mt-40 border-top">
+                        <a href="{% url 'post-detail' post.slug %}" class="genric-btn danger circle">Ver más...</a>
+                        {% if post.propietario.pk is request.user.pk %}
+                            <a href="{% url 'post-edit' post.slug %}" class="genric-btn danger circle">Editar</a>
+                            <a href="{% url 'post-delete' post.slug %}" class="genric-btn danger circle">Eliminar</a>
+                        {% endif %}
+                        <div class="f-right" id="like-section-{{ post.slug }}">
+                            {% include 'posts/like_section.html' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+        <div class="col-md-5 h-2">
+            <div class="row center-v">
+                <div class="col-md-7 dialog-orange">
+                    <h5 class="mb-20">Busca lo que quieras ver</h5>
+                    <form action="{% url 'post-list' %}" method="GET">
+                        <div class="row">
+                            <select default="" class="combo-temas" name="categorias">
+                            <option value="">Categorias</option>
+                                {% for categoria in categorias %}
+                                    <option value="{{ categoria.pk }}">{{ categoria.titulo }}</option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit" class="btn-combo-temas">Buscar</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-5">
+                    <img src={% static 'imagenes/Lupa.png' %} alt="logo not found">
+                </div>
+            </div>
+            {% if top_posts_semanal %}
+                <div class="row">
+                    <div class="card dialog-orange col-md-7">
+                        <div class="card-title text-center"><strong>→ TOP POSTS <i aria-label="garritas arriba"><img src="{% static 'imagenes/Like.png' %}" width="20" height="20"></i> SEMANAL ←</strong></div>
+                        <div class="card-body">
+                            <ol class="pl-0 text-left">
+                                {% for top_post in top_posts_semanal %}
+                                    <li><i class="fa fa-caret-right" aria-hidden="true"></i> <a class="text-dark" href="{% url 'post-detail' top_post.slug %}">{{ top_post.titulo }} ({{ top_post.likes.count }} <span aria-label="garritas arriba"><img src="{% static 'imagenes/Like.png' %}" width="16" height="16"></span>)</a></li>
+                                {% endfor %}
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <br>
+            {% endif %}
+            {% if top_posts_comentados %}
+                <div class="row">
+                    <div class="card dialog-orange col-md-7">
+                        <div class="card-title text-center"><strong>→ TOP POSTS <i class="fas fa-comments" aria-label="comentarios"></i> SEMANAL ←</strong></div>
+                        <div class="card-body">
+                            <ol class="pl-0 text-left">
+                                {% for top_post in top_posts_comentados %}
+                                    <li><i class="fa fa-caret-right" aria-hidden="true"></i> <a class="text-dark" href="{% url 'post-detail' top_post.slug %}">{{ top_post.titulo }} ({{ top_post.comentarios.count }} <i class="fas fa-comments" aria-label="comentarios"></i>)</a></li>
+                                {% endfor %}
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    {% if is_paginated %}
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+                <li><a class="genric-btn danger circle" href="?page={{ page_obj.previous_page_number }}"><i class="fa fa-chevron-left" aria-hidden="true"></i></a></li>
+            {% else %}
+                <li class="disabled"><span class="genric-btn disable circle"><i class="fa fa-chevron-left" aria-hidden="true"></i></span></li>
+            {% endif %}
+
+            {% if page_obj.number|add:'-4' > 1 %}
+                <li><a class="genric-btn danger circle" href="?page={{ page_obj.number|add:'-5' }}">&hellip;</a></li>
+            {% endif %}
+
+            {% for i in page_obj.paginator.page_range %}
+                {% if page_obj.number == i %}
+                    <li class="active"><span class="genric-btn disable circle">{{ i }} <span class="sr-only">(current)</span></span></li>
+                {% elif i > page_obj.number|add:'-5' and i < page_obj.number|add:'5' %}
+                    <li><a class="genric-btn danger circle" href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.paginator.num_pages > page_obj.number|add:'4' %}
+                <li><a class="genric-btn danger circle" href="?page={{ page_obj.number|add:'5' }}">&hellip;</a></li>
+            {% endif %}
+
+            {% if page_obj.has_next %}
+                <li><a class="genric-btn danger circle" href="?page={{ page_obj.next_page_number }}"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></li>
+            {% else %}
+                <li class="disabled"><span class="genric-btn disable circle"><i class="fa fa-chevron-right" aria-hidden="true"></i></span></li>
+            {% endif %}
+        </ul>
+    {% endif %}
+{% endblock %}

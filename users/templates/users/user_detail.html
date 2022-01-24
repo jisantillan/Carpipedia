@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content_wrapper %}
+  <div class="row gutters-sm mt-20 mb-20">
+    <div class="col-md-4 mb-2">
+      <div class="card" style="background-color: #8bcece;">
+        <div class="card-body">
+          <div class="d-flex flex-column align-items-center text-center">
+            {% if object.avatar %}
+            <img src="{% static 'imagenes/'|add:object.avatar.nombre_imagen %}" alt="Admin" class="rounded-circle" width="150">
+            {% else %}
+            <img src="{% static 'imagenes/CarpinchoAnonimo.png'%}" class="rounded-circle" width="150" height="30">
+            {% endif %}
+            <div class="mt-3">
+           <h4>{{ object.first_name }} {{ object.last_name }} </h4> 
+
+           {% if object.texto_ranking == "sin ranking" %}
+           <p class="capitalize" class="text-secondary mb-1"  >Ranking : {{ object.texto_ranking }}  </p>   
+           {% endif %}
+            {% if object.texto_ranking == "bronce" %}
+              <p class="capitalize" class="text-secondary mb-1"  >Ranking : {{ object.texto_ranking }} <img src="{% static 'imagenes/medalla_bronce.png'%}" width="30" height="5"> </p>   
+            {% endif %}
+            {% if object.texto_ranking == "plata" %}
+              <p class="capitalize" class="text-secondary mb-1"  >Ranking : {{ object.texto_ranking }} <img src="{% static 'imagenes/medalla_plata.png'%}" width="30" height="5"> </p>   
+            {% endif %}
+            {% if object.texto_ranking == "oro" %}
+              <p class="capitalize" class="text-secondary mb-1"  >Ranking : {{ object.texto_ranking }} <img src="{% static 'imagenes/medalla_oro.png'%}" width="30" height="5"> </p>   
+            {% endif %}
+            
+            {% if object.email %}
+              <p><b>Email: </b>{{ object.email }}</p>
+            {% endif %}
+            {% if object.pais %}
+              <p><b>Ubicación: </b>{{ object.pais }}</p>
+            {% endif %}
+            {% if object.fecha_de_nacimiento %}
+              <p><b>Fecha de nacimiento: </b>{{ object.fecha_de_nacimiento }}</p>
+            {% endif %}
+            {% if object.biografia %}
+              <p><b>Biografía: </b>{{ object.biografia }}</p>
+            {% endif %}
+            {% if object.intereses %}
+              <p><b>Intereses: </b>{{ object.intereses }}</p>
+            {% endif %}
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> 
+    <div class="col-md-8">
+    <div class="card mb-3">
+      {% for post in posts %}
+      <div class="card mb-2">
+        <div class="card-body">
+            <h5 class="card-title">{{ post.titulo }}</h5>
+
+            {% if post.propietario.avatar.nombre_imagen %}
+                <p class="text-muted border-bottom">- Por <a class="text-secondary" href="{% url "usr-detail" post.propietario.pk%}">{{ post.propietario }}<img style="position: absolute" src="{% static 'imagenes/Mini'|add:post.propietario.avatar.nombre_imagen %}" class="rounded-circle" width="30" height="30"></a></p>
+            {% else %}
+                <p class="text-muted float-left">- Por <a class="text-secondary" href="{% url "usr-detail" post.propietario.pk%}">{{ post.propietario }}<img style="position: absolute" src="{% static 'imagenes/CarpinchoAnonimo.png' %}" class="rounded-circle" width="30" height="30"></a></p>
+            {% endif %}<br>
+            <div class="post-teaser">
+              <p class="card-text">{{ post.contenido|safe }}</p>
+            </div>
+            <div class="button-group-area mt-40 border-top">
+              <a href="{% url 'post-detail' post.slug %}" class="genric-btn danger circle">Ver detalle</a>
+              <a href="{% url 'post-edit' post.slug %}" class="genric-btn danger circle">Editar</a>
+              <a href="{% url 'post-delete' post.slug %}" class="genric-btn danger circle">Eliminar</a>
+            <div class="f-right" id="like-section-{{ post.slug }}">
+              {% include 'posts/like_section.html' %}
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+    </div>
+    </div>
+{% endblock %}

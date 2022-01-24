@@ -1,0 +1,20 @@
+{% load post_tags %}
+{% load static %}
+<div class="row">
+    <form action="{% url 'like_post' %}" method="post">
+        {% csrf_token %}
+        {% if post|is_liked_by_user:request.user %}
+            <button type="submit" id="like" name="slug" value="{{ post.slug }}" class="genric-btn danger-border circle"><span><img src="{% static 'imagenes/Like.png' %}" width="20" height="20"></span>  ({{ post.likes.count }})</button>
+        {% else %}
+            <button type="submit" id="like" name="slug" value="{{ post.slug }}" class="genric-btn danger circle"><span><img src="{% static 'imagenes/Like.png' %}" width="20" height="20"></span>  ({{ post.likes.count }})</button>
+        {% endif %}
+    </form>
+    <form action="{% url 'dislike_post' %}" method="post">
+        {% csrf_token %}
+        {% if post|is_disliked_by_user:request.user %}
+            <button type="submit" id="dislike" name="slug" value="{{ post.slug }}" class="genric-btn danger-border circle"><span><img src="{% static 'imagenes/Dislike.png' %}" width="20" height="20"></span>  ({{ post.dislikes.count }})</button>
+        {% else %}
+            <button type="submit" id="dislike" name="slug" value="{{ post.slug }}" class="genric-btn danger circle"><span><img src="{% static 'imagenes/Dislike.png' %}" width="20" height="20"></span>  ({{ post.dislikes.count }})</button>
+        {% endif %}
+    </form>
+</div>

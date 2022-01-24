@@ -1,0 +1,38 @@
+{% load socialaccount static %}
+{% get_providers as socialaccount_providers %}
+<div class="modal-dialog text-center">
+  <div class="col-sm-8">
+    <div class="modal-content">
+      <div class="col-12">
+        <img alt="logo not found" src="{% static 'imagenes/LogoCarpipediaChico.png' %}" width="50%"/>
+      </div>
+      <h3><div class="fs-3 fw-bolder">Unetete a la manada</div></h3>
+        <div class="col-12">
+          {% for provider in socialaccount_providers %}
+            {% if provider.id == "openid" %}
+              {% for brand in provider.get_brands %}
+                <li>
+                  <a title="{{brand.name}}" 
+                    class="socialaccount_provider {{provider.id}} {{brand.id}}" 
+                    href="{% provider_login_url provider.id openid=brand.openid_url process=process %}">
+                    {{brand.name}}
+                  </a>
+                </li>
+              {% endfor %}
+            {% endif %}
+            {% if provider.name == "Facebook" %}
+              <li class="form-group">
+                <a title="{{provider.name}}" class="socialaccount_provider {{provider.id}} genric-btn primary radius"
+                href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}">Continuar con {{provider.name}}</a>
+              </li>
+            {% else %}
+              <li class="form-group">
+                <a title="{{provider.name}}" class="socialaccount_provider {{provider.id}} genric-btn danger radius"
+                href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}">Continuar con {{provider.name}}</a>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </div>
+    </div>
+  </div>
+</div>

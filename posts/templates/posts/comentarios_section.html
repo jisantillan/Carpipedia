@@ -1,0 +1,94 @@
+{% load static crispy_forms_tags post_tags %}
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="">Comentarios</h4>
+    </div>
+    {% if request.user.is_authenticated %}
+        <div class="container mt-20">
+            <form action="{% url 'comentar_post' %}" method="post">
+                {% csrf_token %}
+                {{ comentario_form.cuerpo|as_crispy_field }}
+                <input type="hidden" id="post_slug" name="slug" value="{{ post.slug }}">
+                <button id="comentar" type="submit" class="genric-btn danger circle float-right mt-15">Comentar</button>
+            </form>
+        </div>
+    {% endif %}
+    {% for comentario in post.comentarios.all|solo_comentarios %}
+        <div class="card mt-20">
+            <div class="container">
+                <div class="row pt-20">
+                {% if not comentario.user %}
+                    <p class="text-muted col-sm">- Por (usuario eliminado)</p>
+                {% else %}
+                    {% if comentario.user.avatar.nombre_imagen %}
+                        <p class="text-muted col-sm">- Por <a class="text-secondary" href="{% url "usr-detail" comentario.user.pk%}">{{ comentario.user }}<img style="position: absolute" src="{% static 'imagenes/Mini'|add:comentario.user.avatar.nombre_imagen %}" class="rounded-circle" width="30" height="30"></a></p>
+                    {% else %}
+                        <p class="text-muted col-sm">- Por <a class="text-secondary" href="{% url "usr-detail" comentario.user.pk%}">{{ comentario.user }}<img style="position: absolute" src="{% static 'imagenes/CarpinchoAnonimo.png' %}" class="rounded-circle" width="30" height="30"></a></p>
+                    {% endif %}
+                {% endif %}
+                <p class="text-muted col-sm"></p>
+                <p class="text-muted col-sm">{{ comentario.hora_creacion|date:'j \d\e F \d\e Y' }}</p>
+                </div>
+            </div>
+            <div class="container pt-20">
+                <p class="card-text">{{ comentario.cuerpo|safe }}</p>
+            </div>
+            {% if comentario.user.pk is request.user.pk %}
+                <div class="row row justify-content-between">
+                    <div class="col-md-6 offset-md-10 mb-10">
+                        <form method="POST" action="{% url 'comment-delete' comentario.pk %}">
+                            {% csrf_token %}<button class="genric-btn color-red circle" type="submit"><i class="fa fa-trash"></i></button>
+                        </form> 
+                    </div>
+                </div>
+            {% endif %}
+            <div class="container bg-light">
+                {% if comentario.comentarios_hijos.all %}
+                    <h5>Respuestas</h5>
+                    {% for respuesta in comentario.comentarios_hijos.all|ordenar_respuestas %}
+                        <div class="card mt-20">
+                            <div class="row pt-20">
+                                {% if respuesta.user.avatar.nombre_imagen %}
+                                    <p class="text-muted col-sm">- Por <a class="text-secondary" href="{% url "usr-detail" respuesta.user.pk%}">{{ respuesta.user }}<img style="position: absolute" src="{% static 'imagenes/Mini'|add:respuesta.user.avatar.nombre_imagen %}" class="rounded-circle" width="30" height="30"></a></p>
+                                {% else %}
+                                    <p class="text-muted col-sm">- Por <a class="text-secondary" href="{% url "usr-detail" respuesta.user.pk%}">{{ respuesta.user }}<img style="position: absolute" src="{% static 'imagenes/CarpinchoAnonimo.png' %}" class="rounded-circle" width="30" height="30"></a></p>
+                                {% endif %}
+                                <p class="text-muted col-sm"></p>
+                                <p class="text-muted col-sm">{{ respuesta.hora_creacion|date:'j \d\e F \d\e Y' }}</p>
+                            </div>
+                            <div class="container pt-20">
+                                <p class="card-text">{{ respuesta.cuerpo|safe }}</p>
+                            </div>
+                            {% if respuesta.user.pk is request.user.pk %}
+                                <div class="row row justify-content-between">
+                                    <div class="col-md-6 offset-md-10 mb-10">
+                                        <form method="POST" action="{% url 'comment-delete' respuesta.pk %}">
+                                            {% csrf_token %}<button class="genric-btn color-red circle" type="submit"><i class="fa fa-trash"></i></button>
+                                        </form>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="container mt-20 mb-20">
+                <button id="mostrar-form-{{ comentario.pk }}" type="submit" class="genric-btn danger circle" onclick="mostrarInput({{ comentario.pk }});">Escribir una respuesta</button>
+                <form id="input_respuesta-{{ comentario.pk }}" class="input_respuesta" action="{% url 'responder_comentario' %}" method="post">
+                    {% csrf_token %}
+                    <input class="form-control respuesta-comentario" id="respuesta-{{ comentario.pk }}" type="text" placeholder="Escribe una respuesta...">
+                    <input type="hidden" id="pk_comentario" name="pk_comentario" value="{{ comentario.pk }}">
+                    <button id="responder-comentario" type="submit" class="genric-btn danger circle float-right mt-15" value="{{ comentario.pk }}">Responder</button>
+                </form>
+            </div>
+        </div>
+        <script type="text/javascript">
+            function mostrarInput(pk){
+                console.log(pk);
+                document.getElementById('input_respuesta-'+pk).style.display = 'block';
+                document.getElementById('mostrar-form-'+pk).style.display = 'none';
+            }
+        </script>
+    {% endfor %}
+    </div>

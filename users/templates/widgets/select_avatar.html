@@ -1,0 +1,8 @@
+{% load avatar_tags %}
+<div class="container" style="max-height: 500px">
+  <select id="select_avatar" name="{{ widget.name }}">
+    {% for opcion in opciones %}
+      {% include "widgets/select_avatar_option.html" with opcion=opcion %}
+    {% endfor %}
+  </select>
+</div>
